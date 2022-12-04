@@ -1,3 +1,3 @@
 #![allow(dead_code)]
 
-mod day_01;
+pub mod day_01;

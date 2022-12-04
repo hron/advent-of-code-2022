@@ -11,17 +11,22 @@ fn biggest_elf(calories_per_elf: &CaloriesPerElf) -> Calories {
 
 fn parse(input: &str) -> CaloriesPerElf {
     input
+        .trim_end()
         .split("\n\n")
         .map(|elf_calories| {
             elf_calories
                 .split("\n")
-                .map(|calories: &str| calories.parse::<Calories>().unwrap())
+                .map(|calories: &str| {
+                    calories
+                        .parse::<Calories>()
+                        .expect(&format!("Cannot parse '{calories}'"))
+                })
                 .collect()
         })
         .collect()
 }
 
-fn part_01(input: &str) -> Calories {
+pub fn part_01(input: &str) -> Calories {
     let calories_per_elf = parse(input);
     biggest_elf(&calories_per_elf)
 }
