@@ -47,9 +47,7 @@ pub fn part_02(input: &str) -> Snack {
 mod tests {
     use super::*;
 
-    #[test]
-    fn it_works_part_01() {
-        let input = "\
+    const TEST_INPUT: &str = "\
 1000
 2000
 3000
@@ -65,27 +63,13 @@ mod tests {
 
 10000";
 
-        assert_eq!(part_01(input), 24000);
+    #[test]
+    fn it_works_part_01() {
+        assert_eq!(part_01(TEST_INPUT), 24000);
     }
 
     #[test]
     fn it_works_part_02() {
-        let input = "\
-1000
-2000
-3000
-
-4000
-
-5000
-6000
-
-7000
-8000
-9000
-
-10000";
-
-        assert_eq!(part_02(input), 45000);
+        assert_eq!(part_02(TEST_INPUT), 45000);
     }
 }
