@@ -1,15 +1,22 @@
-type Calories = u32;
-type CaloriesPerElf = Vec<Vec<Calories>>;
+type Snack = u32;
+type SnacksPerElf = Vec<Vec<Snack>>;
 
-fn biggest_elf(calories_per_elf: &CaloriesPerElf) -> Calories {
-    calories_per_elf
+fn total_calories_for_top(snacks_per_elf: &SnacksPerElf, n: usize) -> Snack {
+    let mut top_n_elfs: Vec<Snack> = vec![0; n];
+
+    let total_calories_per_elf = snacks_per_elf
         .into_iter()
-        .map(|elf_calories| elf_calories.into_iter().sum())
-        .reduce(|accum, item| if accum >= item { accum } else { item })
-        .unwrap()
+        .map(|elf_calories| elf_calories.into_iter().sum());
+
+    for (_, c) in total_calories_per_elf.enumerate() {
+        top_n_elfs.push(c);
+        top_n_elfs.sort();
+        top_n_elfs.remove(0);
+    }
+    top_n_elfs.into_iter().sum()
 }
 
-fn parse(input: &str) -> CaloriesPerElf {
+fn parse(input: &str) -> SnacksPerElf {
     input
         .trim_end()
         .split("\n\n")
@@ -18,7 +25,7 @@ fn parse(input: &str) -> CaloriesPerElf {
                 .split("\n")
                 .map(|calories: &str| {
                     calories
-                        .parse::<Calories>()
+                        .parse::<Snack>()
                         .expect(&format!("Cannot parse '{calories}'"))
                 })
                 .collect()
@@ -26,9 +33,14 @@ fn parse(input: &str) -> CaloriesPerElf {
         .collect()
 }
 
-pub fn part_01(input: &str) -> Calories {
-    let calories_per_elf = parse(input);
-    biggest_elf(&calories_per_elf)
+pub fn part_01(input: &str) -> Snack {
+    let snacks_per_elf = parse(input);
+    total_calories_for_top(&snacks_per_elf, 1)
+}
+
+pub fn part_02(input: &str) -> Snack {
+    let snacks_per_elf = parse(input);
+    total_calories_for_top(&snacks_per_elf, 3)
 }
 
 #[cfg(test)]
@@ -36,7 +48,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn it_works_part_01() {
         let input = "\
 1000
 2000
@@ -54,5 +66,26 @@ mod tests {
 10000";
 
         assert_eq!(part_01(input), 24000);
+    }
+
+    #[test]
+    fn it_works_part_02() {
+        let input = "\
+1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000";
+
+        assert_eq!(part_02(input), 45000);
     }
 }
