@@ -10,7 +10,8 @@ fn main() {
         "day01p02" => day_01::part_02(&config.puzzle_input),
         "day02p01" => day_02::part_01(&config.puzzle_input),
         "day02p02" => day_02::part_02(&config.puzzle_input),
-        "day03p01" => day_03::part_01(&config.puzzle_input) as u32,
+        "day03p01" => day_03::part_01(&config.puzzle_input),
+        "day03p02" => day_03::part_02(&config.puzzle_input),
         &_ => panic!("Unknown day"),
     };
 
