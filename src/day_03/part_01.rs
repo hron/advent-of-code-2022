@@ -1,10 +1,11 @@
+use super::rucksack;
 use super::rucksack::Rucksack;
 
 pub fn part_01(input: &str) -> u32 {
     let rucksacks: Vec<Rucksack> = input.trim_end().split("\n").map(Rucksack::parse).collect();
     rucksacks
         .iter()
-        .map(|r| r.priority(r.misplaced_item()))
+        .map(|r| rucksack::priority(r.misplaced_item()))
         .sum()
 }
 

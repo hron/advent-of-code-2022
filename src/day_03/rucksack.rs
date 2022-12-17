@@ -24,13 +24,28 @@ impl Rucksack {
             ))
     }
 
-    pub fn priority(&self, item: &char) -> u32 {
-        let mut priority: u32 = 1;
-        for (i, c) in (b'a'..=b'z').chain(b'A'..=b'Z').enumerate() {
-            if c == *item as u8 {
-                priority = priority + i as u32;
-            }
-        }
-        priority
+    pub fn len(&self) -> usize {
+        self.compartments.iter().map(|c| c.len()).sum()
     }
+
+    pub fn all_items(&self) -> std::iter::Chain<std::slice::Iter<char>, std::slice::Iter<char>> {
+        self.compartments[0]
+            .iter()
+            .chain(self.compartments[1].iter())
+            .into_iter()
+    }
+
+    pub(crate) fn include(&self, item: &char) -> bool {
+        self.all_items().any(|c| c == item)
+    }
+}
+
+pub fn priority(item: &char) -> u32 {
+    let mut priority: u32 = 1;
+    for (i, c) in (b'a'..=b'z').chain(b'A'..=b'Z').enumerate() {
+        if c == *item as u8 {
+            priority = priority + i as u32;
+        }
+    }
+    priority
 }
